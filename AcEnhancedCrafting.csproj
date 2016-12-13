@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{88442984-6D88-43BB-B606-1D1F2308C8C9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AlcoholV</RootNamespace>
+    <AssemblyName>AcEnhancedCrafting</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
+    <IntermediateOutputPath>..\..\..\obj_output\</IntermediateOutputPath>
+  </PropertyGroup>
+  <Target Name="AfterBuild">
+    <!-- Remove obj folder -->
+    <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
+    <!-- Remove bin folder -->
+    <RemoveDir Directories="$(BaseOutputPath)" />
+  </Target>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Assemblies\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Mod\Assemblies\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Extension\Bill_Extension.cs" />
+    <Compile Include="Extension\Bill_Production_Extension.cs" />
+    <Compile Include="DetourAttribute.cs" />
+    <Compile Include="Detouring\Bill.cs" />
+    <Compile Include="Detouring\Detours.cs" />
+    <Compile Include="AcEnhancedCrafting.cs" />
+    <Compile Include="Detouring\BillUtility.cs" />
+    <Compile Include="Extension\Listing_Standard_Extension.cs" />
+    <Compile Include="Overriding\Bill_Production.cs" />
+    <Compile Include="Overriding\Bill_ProductionWithUft.cs" />
+    <Compile Include="Overriding\Dialog_BillConfig.cs" />
+    <Compile Include="Overriding\Dialog_Rename.cs" />
+    <Compile Include="Extension\IExtendable.cs" />
+    <Compile Include="Detouring\ITab_Bills.cs" />
+    <Compile Include="TexButton.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Mod\About\1.Assign.png" />
+    <Content Include="Mod\About\2.Sorting.png" />
+    <Content Include="Mod\About\3.Rename.png" />
+    <Content Include="Mod\About\4.UI.png" />
+    <Content Include="Mod\About\5.Overview.png" />
+    <Content Include="Mod\About\About.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Mod\About\preview.png" />
+    <Content Include="Mod\Assemblies\AC-EnhancedCrafting.dll" />
+    <Content Include="Mod\Languages\English\Keyed\AC-EnhancedCraftingUI.xml" />
+    <Content Include="Mod\Languages\Korean\Keyed\AC-EnhancedCraftingUI.xml" />
+    <Content Include="Mod\LICENSE.txt" />
+    <Content Include="Mod\Textures\BestStockpile.png" />
+    <Content Include="Mod\Textures\Detail.png" />
+    <Content Include="Mod\Textures\DropOnFloor.png" />
+    <Content Include="Mod\Textures\Forever.png" />
+    <Content Include="Mod\Textures\RepeatCount.png" />
+    <Content Include="Mod\Textures\TargetCount.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /E /Y /I "$(ProjectDir)Mod" "C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\$(TargetName)\"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-	<ModMetaData>
-		<name>AC-Enhanced Crafting</name>
-		<author>AlcoholV</author>
-		<url>https://github.com/AlcoholV/Rim.AcEnhancedCrafting</url>
-		<targetVersion>0.16.0000</targetVersion>
-		<description>Provides enhanced bill capabilities and UI.</description>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ModMetaData>
+  <name>AC-Enhanced Crafting</name>
+  <author>AlcoholV</author>
+  <url>https://github.com/AlcoholV/Rim.AcEnhancedCrafting</url>
+  <targetVersion>0.16.0000</targetVersion>
+  <description>Provides enhanced bill capabilities and UI.</description>
 </ModMetaData>

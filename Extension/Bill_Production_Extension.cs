@@ -10,12 +10,10 @@ namespace AlcoholV.Extension
 {
     internal static class Bill_Production_Extension
     {
-
         public static bool ShouldDoNowExt(this Bill_Production _this)
         {
-    
             if (_this.suspended) return false;
-            var extendable = (IExtendable)_this;
+            var extendable = (IExtendable) _this;
 
             if (_this.repeatMode == BillRepeatMode.Forever)
             {
@@ -31,17 +29,13 @@ namespace AlcoholV.Extension
             if (_this.repeatMode == BillRepeatMode.TargetCount)
             {
                 var currentCount = _this.recipe.WorkerCounter.CountProducts(_this);
-                
+
 
                 if (currentCount >= _this.targetCount)
-                {
                     extendable.IsPaused = true;
-                }
 
                 else if (currentCount <= extendable.MinCount)
-                {
                     extendable.IsPaused = false;
-                }
 
                 return !extendable.IsPaused;
             }
@@ -53,32 +47,34 @@ namespace AlcoholV.Extension
         public static void DrawConfigInterfaceExt(this Bill_Production _this, Rect baseRect, Color baseColor)
         {
             // counter label
-            GUI.color = baseColor;
             var rect = new Rect(28f, 32f, 100f, 30f);
             var counterLabel = _this.RepeatInfoText;
 
-            //// min count label
-            //if (_this.repeatMode == BillRepeatMode.TargetCount)
-            //{
-            //    counterLabel = counterLabel.Insert(0, _extendable.MinCount + "/");
-            //}
+            // min count label
+            if (_this.repeatMode == BillRepeatMode.TargetCount)
+            {
+                var extendable = (IExtendable) _this;
+                counterLabel = extendable.MinCount + "/" + counterLabel;
+            }
 
+            GUI.color = new Color(1f, 1f, 1f, 0.65f);
             Widgets.Label(rect, counterLabel);
-      
+            GUI.color = baseColor;
 
             var widgetRow = new WidgetRow(baseRect.xMax, baseRect.y + 29f, UIDirection.LeftThenUp, 99999f, 4f);
+
             CreateAssignPawnButton(_this, baseColor);
             CreateDetailButton(_this, widgetRow, baseColor);
             CreateHaulModeButton(_this, widgetRow, baseColor);
             CreateRepeatButton(_this, widgetRow, baseColor);
-            CreatePlusMinusButton(_this,widgetRow, baseColor);
+            CreatePlusMinusButton(_this, widgetRow, baseColor);
             CreateOverlayLabel(_this, baseRect);
         }
 
 
         private static void CreateAssignPawnButton(Bill_Production _this, Color baseColor)
         {
-            var extendable = (IExtendable)_this;
+            var extendable = (IExtendable) _this;
             GUI.color = baseColor;
             var rect2 = new Rect(210, 0f, 100f, 24f);
             var workerLabel = "AlcoholV.Anybody".Translate();
@@ -86,11 +82,9 @@ namespace AlcoholV.Extension
             if (Widgets.ButtonText(rect2, workerLabel))
             {
                 var list = new List<FloatMenuOption>();
-                list.Add(new FloatMenuOption("AlcoholV.Anybody".Translate(), delegate { extendable.AssignedPawn = null; }, MenuOptionPriority.Default, null, null, 0f, null));
+                list.Add(new FloatMenuOption("AlcoholV.Anybody".Translate(), delegate { extendable.AssignedPawn = null; }));
                 foreach (var colonist in _this.GetSortedSatisfyWorker())
-                {
-                    list.Add(new FloatMenuOption(colonist.NameStringShort, delegate { extendable.AssignedPawn = colonist; }, MenuOptionPriority.Default, null, null, 0f, null));
-                }
+                    list.Add(new FloatMenuOption(colonist.NameStringShort, delegate { extendable.AssignedPawn = colonist; }));
                 Find.WindowStack.Add(new FloatMenu(list));
             }
         }
@@ -99,9 +93,7 @@ namespace AlcoholV.Extension
         {
             GUI.color = baseColor;
             if (widgetRow.ButtonIcon(TexButton.Detail, "Details".Translate()))
-            {
-                Find.WindowStack.Add(new Dialog_BillConfig(_this, ((Thing)_this.billStack.billGiver).Position));
-            }
+                Find.WindowStack.Add(new Dialog_BillConfig(_this, ((Thing) _this.billStack.billGiver).Position));
         }
 
         private static void CreateHaulModeButton(Bill_Production _this, WidgetRow widgetRow, Color baseColor)
@@ -123,13 +115,13 @@ namespace AlcoholV.Extension
             if (widgetRow.ButtonIcon(tex, label))
             {
                 var list = new List<FloatMenuOption>();
-                var enumerator = Enum.GetValues(typeof (BillStoreMode)).GetEnumerator();
+                var enumerator = Enum.GetValues(typeof(BillStoreMode)).GetEnumerator();
                 {
                     while (enumerator.MoveNext())
                     {
                         var billStoreMode = (BillStoreMode) (byte) enumerator.Current;
                         var smLocal = billStoreMode;
-                        list.Add(new FloatMenuOption(("BillStoreMode_" + billStoreMode).Translate(), delegate { _this.storeMode = smLocal; }, MenuOptionPriority.Default, null, null, 0f, null));
+                        list.Add(new FloatMenuOption(("BillStoreMode_" + billStoreMode).Translate(), delegate { _this.storeMode = smLocal; }));
                     }
                 }
                 Find.WindowStack.Add(new FloatMenu(list));
@@ -154,9 +146,7 @@ namespace AlcoholV.Extension
             }
 
             if (widgetRow.ButtonIcon(tex, _this.repeatMode.GetLabel()))
-            {
                 BillRepeatModeUtility.MakeConfigFloatMenu(_this);
-            }
         }
 
         private static void CreatePlusMinusButton(Bill_Production _this, WidgetRow widgetRow, Color baseColor)
@@ -180,13 +170,10 @@ namespace AlcoholV.Extension
                     _this.repeatCount++;
                 }
                 SoundDefOf.AmountIncrement.PlayOneShotOnCamera();
-                if (TutorSystem.TutorialMode && _this.repeatMode == BillRepeatMode.RepeatCount)
-                {
+                if (TutorSystem.TutorialMode && (_this.repeatMode == BillRepeatMode.RepeatCount))
                     TutorSystem.Notify_Event(_this.recipe.defName + "-RepeatCountSetTo-" + _this.repeatCount);
-                }
             }
 
-            GUI.color = baseColor;
             // - ¹öÆ°
             if (widgetRow.ButtonIcon(TexButton.Minus, null))
             {
@@ -204,16 +191,14 @@ namespace AlcoholV.Extension
                     _this.repeatCount = Mathf.Max(0, _this.repeatCount - 1);
                 }
                 SoundDefOf.AmountDecrement.PlayOneShotOnCamera();
-                if (TutorSystem.TutorialMode && _this.repeatMode == BillRepeatMode.RepeatCount)
-                {
+                if (TutorSystem.TutorialMode && (_this.repeatMode == BillRepeatMode.RepeatCount))
                     TutorSystem.Notify_Event(_this.recipe.defName + "-RepeatCountSetTo-" + _this.repeatCount);
-                }
             }
         }
 
         private static void CreateOverlayLabel(Bill_Production _this, Rect baseRect)
         {
-            var extendable = (IExtendable)_this;
+            var extendable = (IExtendable) _this;
             if (_this.suspended || !extendable.IsPaused) return;
 
             Text.Font = GameFont.Medium;

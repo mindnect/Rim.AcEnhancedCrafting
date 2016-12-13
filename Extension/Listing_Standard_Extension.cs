@@ -11,9 +11,7 @@ namespace AlcoholV.Extension
             var rect = _this.GetRect(18f);
             var result = Widgets.HorizontalSlider(rect, val, min, max);
             if (!tooltip.NullOrEmpty())
-            {
                 TooltipHandler.TipRegion(rect, tooltip);
-            }
             _this.Gap(_this.verticalSpacing);
             return result;
         }
@@ -33,9 +31,7 @@ namespace AlcoholV.Extension
                 SoundDefOf.AmountDecrement.PlayOneShotOnCamera();
                 val -= largeChange;
                 if (val < min)
-                {
                     val = min;
-                }
             }
             rect.x += rect.width + gap;
             if (Widgets.ButtonText(rect, "-" + smallChange, true, false, true))
@@ -43,9 +39,7 @@ namespace AlcoholV.Extension
                 SoundDefOf.AmountDecrement.PlayOneShotOnCamera();
                 val -= smallChange;
                 if (val < min)
-                {
                     val = min;
-                }
             }
 
             // plus
@@ -55,9 +49,7 @@ namespace AlcoholV.Extension
                 SoundDefOf.AmountIncrement.PlayOneShotOnCamera();
                 val += smallChange;
                 if (val < min)
-                {
                     val = min;
-                }
             }
             rect.x += rect.width + gap;
             if (Widgets.ButtonText(rect, "+" + largeChange, true, false, true))
@@ -65,9 +57,7 @@ namespace AlcoholV.Extension
                 SoundDefOf.AmountIncrement.PlayOneShotOnCamera();
                 val += largeChange;
                 if (val < min)
-                {
                     val = min;
-                }
             }
             _this.Gap(_this.verticalSpacing);
         }

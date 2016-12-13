@@ -1,9 +1,8 @@
 using System;
 using System.Reflection;
 
-namespace AlcoholV
+namespace AlcoholV.Detouring
 {
-
     [AttributeUsage(AttributeTargets.Method)]
     internal class DetourAttribute : Attribute
     {
@@ -15,5 +14,4 @@ namespace AlcoholV
             this.source = source;
         }
     }
-
 }

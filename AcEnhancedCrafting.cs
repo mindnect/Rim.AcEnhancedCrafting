@@ -1,8 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Reflection;
-using AlcoholV.Detour;
-using RimWorld;
+using AlcoholV.Detouring;
 using Verse;
 
 namespace AlcoholV
@@ -29,6 +27,7 @@ namespace AlcoholV
         private static void Inject()
         {
             #region Automatic hookup
+
             // Loop through all detour attributes and try to hook them up
             foreach (var targetType in Assembly.GetTypes())
                 foreach (var bindingFlags in BindingFlagCombos)
@@ -44,21 +43,22 @@ namespace AlcoholV
 
             #endregion
 
-            InjectTab(typeof(ITab_Bills), typeof(Detouring.ITab_Bills));
+            //InjectTab(typeof(ITab_Bills), typeof(Detouring.ITab_Bills));
             Log.Message(AssemblyName + " injected.");
         }
 
-        private static void InjectTab(Type source, Type dest)
-        {
-            var defs = DefDatabase<ThingDef>.AllDefs.Where(c => (c.inspectorTabs != null) && c.inspectorTabs.Contains(source)).ToList();
-            defs.RemoveDuplicates();
-            foreach (var def in defs)
-            {
-                def.inspectorTabs.Remove(source);
-                def.inspectorTabs.Add(dest);
-                def.inspectorTabsResolved.Remove(InspectTabManager.GetSharedInstance(source));
-                def.inspectorTabsResolved.Add(InspectTabManager.GetSharedInstance(dest));
-            }
-        }
+        //    foreach (var def in defs)
+        //    defs.RemoveDuplicates();
+        //    var defs = DefDatabase<ThingDef>.AllDefs.Where(c => (c.inspectorTabs != null) && c.inspectorTabs.Contains(source)).ToList();
+        //{
+
+        //private static void InjectTab(Type source, Type dest)
+        //    {
+        //        def.inspectorTabs.Remove(source);
+        //        def.inspectorTabs.Add(dest);
+        //        def.inspectorTabsResolved.Remove(InspectTabManager.GetSharedInstance(source));
+        //        def.inspectorTabsResolved.Add(InspectTabManager.GetSharedInstance(dest));
+        //    }
+        //}
     }
 }

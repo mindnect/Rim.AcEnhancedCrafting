@@ -1,8 +1,6 @@
-﻿using JetBrains.Annotations;
-using RimWorld;
-using Verse;
+﻿using Verse;
 
-namespace AlcoholV
+namespace AlcoholV.Extension
 {
     public interface IExtendable
     {

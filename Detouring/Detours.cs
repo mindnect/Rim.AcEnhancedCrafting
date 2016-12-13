@@ -2,7 +2,7 @@ using System;
 using System.Reflection;
 using Verse;
 
-namespace AlcoholV.Detour
+namespace AlcoholV.Detouring
 {
     public static class Detours
     {
@@ -34,7 +34,7 @@ namespace AlcoholV.Detour
             var destinationString = destination.DeclaringType.FullName + "." + destination.Name + " @ 0x" +
                                     destination.MethodHandle.GetFunctionPointer().ToString("X" + IntPtr.Size*2);
 
-            if (IntPtr.Size == sizeof (long))
+            if (IntPtr.Size == sizeof(long))
             {
                 // 64-bit systems use 64-bit absolute address and jumps
                 // 12 byte destructive

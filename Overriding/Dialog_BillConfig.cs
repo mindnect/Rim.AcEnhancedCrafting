@@ -37,9 +37,7 @@ namespace AlcoholV.Overriding
             if (bill.suspended)
             {
                 if (listing_Standard.ButtonText("Suspended".Translate(), null))
-                {
                     bill.suspended = false;
-                }
             }
             else if (listing_Standard.ButtonText("NotSuspended".Translate(), null))
             {
@@ -51,15 +49,13 @@ namespace AlcoholV.Overriding
             AddAssignWorkerButton(listing_Standard);
 
             if (listing_Standard.ButtonText(bill.repeatMode.GetLabel(), null))
-            {
                 BillRepeatModeUtility.MakeConfigFloatMenu(bill);
-            }
 
             var label = ("BillStoreMode_" + bill.storeMode).Translate();
             if (listing_Standard.ButtonText(label, null))
             {
                 var list = new List<FloatMenuOption>();
-                var enumerator = Enum.GetValues(typeof (BillStoreMode)).GetEnumerator();
+                var enumerator = Enum.GetValues(typeof(BillStoreMode)).GetEnumerator();
                 {
                     while (enumerator.MoveNext())
                     {
@@ -102,9 +98,7 @@ namespace AlcoholV.Overriding
             listing_Standard.Label("IngredientSearchRadius".Translate() + ": " + bill.ingredientSearchRadius.ToString("F0"));
             bill.ingredientSearchRadius = listing_Standard.Slider(bill.ingredientSearchRadius, 3f, 100f, null); // changed
             if (bill.ingredientSearchRadius >= 100f)
-            {
                 bill.ingredientSearchRadius = 999f;
-            }
 
             //listing_Standard.Gap(-4f); // °¸ ÀÌ»ó
             if (bill.recipe.workSkill != null)
@@ -137,9 +131,7 @@ namespace AlcoholV.Overriding
             {
                 var ingredientCount = bill.recipe.ingredients[i];
                 if (!ingredientCount.filter.Summary.NullOrEmpty())
-                {
                     stringBuilder.AppendLine(bill.recipe.IngredientValueGetter.BillRequirementsDescription(ingredientCount));
-                }
             }
             stringBuilder.AppendLine();
             var text4 = bill.recipe.IngredientValueGetter.ExtraDescriptionLine(bill.recipe);
@@ -153,15 +145,11 @@ namespace AlcoholV.Overriding
             Text.Font = GameFont.Small;
             var text5 = stringBuilder.ToString();
             if (Text.CalcHeight(text5, rect4.width) > rect4.height)
-            {
                 Text.Font = GameFont.Tiny;
-            }
             Widgets.Label(rect4, text5);
             Text.Font = GameFont.Small;
             if (bill.recipe.products.Count == 1)
-            {
                 Widgets.InfoCardButton(rect4.x, rect3.y, bill.recipe.products[0].thingDef);
-            }
 
             #endregion
         }
@@ -191,9 +179,7 @@ namespace AlcoholV.Overriding
                 var list = new List<FloatMenuOption>();
                 list.Add(new FloatMenuOption("AlcoholV.Anybody".Translate(), delegate { extendable.AssignedPawn = null; }, MenuOptionPriority.Default, null, null, 0f, null));
                 foreach (var colonist in bill.GetSortedSatisfyWorker())
-                {
                     list.Add(new FloatMenuOption(colonist.NameStringShort, delegate { extendable.AssignedPawn = colonist; }, MenuOptionPriority.Default, null, null, 0f, null));
-                }
                 Find.WindowStack.Add(new FloatMenu(list));
             }
         }
@@ -203,9 +189,7 @@ namespace AlcoholV.Overriding
             var rect = new Rect(inRect.width - 80f, 0f, 30f, 30f);
             TooltipHandler.TipRegion(rect, new TipSignal("RenameBill".Translate()));
             if (Widgets.ButtonImage(rect, TexButton.Rename))
-            {
                 Find.WindowStack.Add(new Dialog_Rename(extendable));
-            }
         }
 
         private void AddRenamedLabel()

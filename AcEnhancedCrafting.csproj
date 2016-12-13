@@ -58,7 +58,7 @@
   <ItemGroup>
     <Compile Include="Extension\Bill_Extension.cs" />
     <Compile Include="Extension\Bill_Production_Extension.cs" />
-    <Compile Include="DetourAttribute.cs" />
+    <Compile Include="Detouring\DetourAttribute.cs" />
     <Compile Include="Detouring\Bill.cs" />
     <Compile Include="Detouring\Detours.cs" />
     <Compile Include="AcEnhancedCrafting.cs" />
@@ -69,7 +69,7 @@
     <Compile Include="Overriding\Dialog_BillConfig.cs" />
     <Compile Include="Overriding\Dialog_Rename.cs" />
     <Compile Include="Extension\IExtendable.cs" />
-    <Compile Include="Detouring\ITab_Bills.cs" />
+    <Compile Include="Inject\ITab_Bills.cs" />
     <Compile Include="TexButton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

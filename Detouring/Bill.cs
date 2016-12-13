@@ -1,55 +1,46 @@
 using System.Reflection;
+using AlcoholV.Extension;
 using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
 using Source = RimWorld.Bill;
 
-namespace AlcoholV.Detour
+namespace AlcoholV.Detouring
 {
     public abstract class Bill : Source
     {
-        [Detour(typeof (Source), bindingFlags = BindingFlags.Instance | BindingFlags.Public)]
-        public bool PawnAllowedToStartAnew(Pawn p)
+        [Detour(typeof(Source), bindingFlags = BindingFlags.Instance | BindingFlags.Public)]
+        public override bool PawnAllowedToStartAnew(Pawn p)
         {
             var iBill = this as IExtendable;
             if (iBill?.AssignedPawn != null)
-            {
                 if (p != iBill.AssignedPawn) return false;
-            }
             if (recipe.workSkill != null)
             {
                 var level = p.skills.GetSkill(recipe.workSkill).Level;
-                if (level < allowedSkillRange.min || level > allowedSkillRange.max)
-                {
+                if ((level < allowedSkillRange.min) || (level > allowedSkillRange.max))
                     return false;
-                }
             }
             return true;
         }
 
-        [Detour(typeof (Source), bindingFlags = BindingFlags.Instance | BindingFlags.Public)]
-        public Rect DrawInterface(float x, float y, float width, int index)
+        [Detour(typeof(Source), bindingFlags = BindingFlags.Instance | BindingFlags.Public)]
+        public new Rect DrawInterface(float x, float y, float width, int index)
         {
             var rect = new Rect(x, y, width, 53f);
             if (!StatusString.NullOrEmpty())
-            {
                 rect.height += 17f;
-            }
             var white = Color.white;
             if (!ShouldDoNow())
-            {
                 white = new Color(1f, 0.7f, 0.7f, 0.7f);
-            }
             GUI.color = white;
             Text.Font = GameFont.Small;
             if (index%2 == 0)
-            {
                 Widgets.DrawAltRect(rect);
-            }
             GUI.BeginGroup(rect);
             var butRect = new Rect(0f, 0f, 24f, 24f);
-            if (billStack.IndexOf(this) > 0 && Widgets.ButtonImage(butRect, TexButton.ReorderUp, white))
+            if ((billStack.IndexOf(this) > 0) && Widgets.ButtonImage(butRect, TexButton.ReorderUp, white))
             {
                 billStack.Reorder(this, -1);
                 SoundDefOf.TickHigh.PlayOneShotOnCamera();
@@ -72,15 +63,11 @@ namespace AlcoholV.Detour
             DrawConfigInterface(rect.AtZero(), white);
             var rect3 = new Rect(rect.width - 24f, 0f, 24f, 24f);
             if (Widgets.ButtonImage(rect3, TexButton.DeleteX, white))
-            {
                 billStack.Delete(this);
-            }
             var butRect3 = new Rect(rect3);
             butRect3.x -= butRect3.width + 4f;
             if (Widgets.ButtonImage(butRect3, TexButton.Suspend, white))
-            {
                 suspended = !suspended;
-            }
             if (!StatusString.NullOrEmpty())
             {
                 Text.Font = GameFont.Tiny;

@@ -43,22 +43,7 @@ namespace AlcoholV
 
             #endregion
 
-            //InjectTab(typeof(ITab_Bills), typeof(Detouring.ITab_Bills));
             Log.Message(AssemblyName + " injected.");
         }
-
-        //    foreach (var def in defs)
-        //    defs.RemoveDuplicates();
-        //    var defs = DefDatabase<ThingDef>.AllDefs.Where(c => (c.inspectorTabs != null) && c.inspectorTabs.Contains(source)).ToList();
-        //{
-
-        //private static void InjectTab(Type source, Type dest)
-        //    {
-        //        def.inspectorTabs.Remove(source);
-        //        def.inspectorTabs.Add(dest);
-        //        def.inspectorTabsResolved.Remove(InspectTabManager.GetSharedInstance(source));
-        //        def.inspectorTabsResolved.Add(InspectTabManager.GetSharedInstance(dest));
-        //    }
-        //}
     }
 }

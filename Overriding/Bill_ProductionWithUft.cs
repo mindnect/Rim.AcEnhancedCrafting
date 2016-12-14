@@ -61,9 +61,9 @@ namespace AlcoholV.Overriding
             Scribe_Values.LookValue(ref _isPaused, "isPaused", false);
         }
 
-        protected override void DrawConfigInterface(Rect baseRect, Color baseColor)
+        protected override void DoConfigInterface(Rect baseRect, Color baseColor)
         {
-            this.DrawConfigInterfaceExt(baseRect, baseColor);
+            this.DoConfigInterfaceExt(baseRect, baseColor);
         }
     }
 }

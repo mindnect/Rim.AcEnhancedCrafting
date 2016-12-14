@@ -35,7 +35,7 @@ namespace AlcoholV.Overriding
                 flag = true;
                 Event.current.Use();
             }
-            Widgets.Label(new Rect(0f, 5f, inRect.width, 35f), "AlcoholV.Rename".Translate());
+            Widgets.Label(new Rect(0f, 5f, inRect.width, 35f), "Rename".Translate());
 
             var text = Widgets.TextField(new Rect(0f, 40f, inRect.width, 35f), _curName);
             if (text.Length < MaxNameLength)
@@ -62,10 +62,13 @@ namespace AlcoholV.Overriding
         {
             if (name.Length == 0)
             {
-                Messages.Message("AlcoholV.InvalidName".Translate(), MessageSound.RejectInput);
+                Messages.Message("NameIsInvalid".Translate(), MessageSound.RejectInput);
                 return false;
             }
-            Messages.Message("AlcoholV.Renamed".Translate(), MessageSound.Benefit);
+            Messages.Message("BillGainsName".Translate(new object[]
+                {
+                    _curName
+                }), MessageSound.Benefit);
             return true;
         }
     }

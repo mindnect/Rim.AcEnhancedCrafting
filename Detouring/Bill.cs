@@ -26,7 +26,7 @@ namespace AlcoholV.Detouring
         }
 
         [Detour(typeof(Source), bindingFlags = BindingFlags.Instance | BindingFlags.Public)]
-        public new Rect DrawInterface(float x, float y, float width, int index)
+        public new Rect DoInterface(float x, float y, float width, int index)
         {
             var rect = new Rect(x, y, width, 53f);
             if (!StatusString.NullOrEmpty())
@@ -56,11 +56,11 @@ namespace AlcoholV.Detouring
             }
             var rect2 = new Rect(28f, 0f, rect.width - 48f - 20f, 48f);
 
-            // change name
+            // change bill name
             var iBill = this as IExtendable;
             Widgets.Label(rect2, iBill != null ? iBill.Name.Truncate(rect.width - 180f) : LabelCap);
 
-            DrawConfigInterface(rect.AtZero(), white);
+            DoConfigInterface(rect.AtZero(), white);
             var rect3 = new Rect(rect.width - 24f, 0f, 24f, 24f);
             if (Widgets.ButtonImage(rect3, TexButton.DeleteX, white))
                 billStack.Delete(this);
@@ -75,8 +75,6 @@ namespace AlcoholV.Detouring
                 Widgets.Label(rect4, StatusString);
             }
             GUI.EndGroup();
-
-            // change label
             if (suspended)
             {
                 Text.Font = GameFont.Medium;

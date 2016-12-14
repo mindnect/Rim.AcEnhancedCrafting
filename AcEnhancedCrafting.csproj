@@ -34,7 +34,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>Mod\Assemblies\</OutputPath>
+    <OutputPath>AcEnhancedCrafting\Assemblies\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -44,10 +44,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="UnityEngine">
@@ -69,34 +65,40 @@
     <Compile Include="Overriding\Dialog_BillConfig.cs" />
     <Compile Include="Overriding\Dialog_Rename.cs" />
     <Compile Include="Extension\IExtendable.cs" />
-    <Compile Include="Inject\ITab_Bills.cs" />
     <Compile Include="TexButton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Mod\About\1.Assign.png" />
-    <Content Include="Mod\About\2.Sorting.png" />
-    <Content Include="Mod\About\3.Rename.png" />
-    <Content Include="Mod\About\4.UI.png" />
-    <Content Include="Mod\About\5.Overview.png" />
-    <Content Include="Mod\About\About.xml">
+    <Content Include="AcEnhancedCrafting\About\1.Assign.png" />
+    <Content Include="AcEnhancedCrafting\About\2.Sorting.png" />
+    <Content Include="AcEnhancedCrafting\About\3.Rename.png" />
+    <Content Include="AcEnhancedCrafting\About\4.UI.png" />
+    <Content Include="AcEnhancedCrafting\About\5.Overview.png" />
+    <Content Include="AcEnhancedCrafting\About\About.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Mod\About\preview.png" />
-    <Content Include="Mod\Assemblies\AC-EnhancedCrafting.dll" />
-    <Content Include="Mod\Languages\English\Keyed\AC-EnhancedCraftingUI.xml" />
-    <Content Include="Mod\Languages\Korean\Keyed\AC-EnhancedCraftingUI.xml" />
-    <Content Include="Mod\LICENSE.txt" />
-    <Content Include="Mod\Textures\BestStockpile.png" />
-    <Content Include="Mod\Textures\Detail.png" />
-    <Content Include="Mod\Textures\DropOnFloor.png" />
-    <Content Include="Mod\Textures\Forever.png" />
-    <Content Include="Mod\Textures\RepeatCount.png" />
-    <Content Include="Mod\Textures\TargetCount.png" />
+    <Content Include="AcEnhancedCrafting\About\preview.png" />
+    <Content Include="AcEnhancedCrafting\Assemblies\AC-EnhancedCrafting.dll" />
+    <Content Include="AcEnhancedCrafting\Languages\English\Keyed\AC-EnhancedCraftingUI.xml" />
+    <Content Include="AcEnhancedCrafting\Languages\Korean\Keyed\AC-EnhancedCraftingUI.xml" />
+    <Content Include="LICENSE.txt" />
+    <Content Include="AcEnhancedCrafting\Textures\BestStockpile.png" />
+    <Content Include="AcEnhancedCrafting\Textures\Detail.png" />
+    <Content Include="AcEnhancedCrafting\Textures\DropOnFloor.png" />
+    <Content Include="AcEnhancedCrafting\Textures\Forever.png" />
+    <Content Include="AcEnhancedCrafting\Textures\RepeatCount.png" />
+    <Content Include="AcEnhancedCrafting\Textures\TargetCount.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Assembly-CSharp\Assembly-CSharp.csproj">
+      <Project>{0662e0c9-c2c0-430b-9165-10fc73b33e44}</Project>
+      <Name>Assembly-CSharp</Name>
+      <Private>False</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /E /Y /I "$(ProjectDir)Mod" "C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\$(TargetName)\"</PostBuildEvent>
+    <PostBuildEvent>xcopy /E /Y /I "$(ProjectDir)$(TargetName)" "C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\$(TargetName)\"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -158,8 +158,8 @@ namespace AlcoholV.Overriding
         {
             if (bill.repeatMode != BillRepeatMode.TargetCount) return;
             listing_Standard.Gap(12f);
-            listing_Standard.Label("AlcoholV.MinLimit".Translate() + ": " + extendable.MinCount);
-            extendable.MinCount = (int) listing_Standard.Slider(extendable.MinCount, 0f, bill.targetCount, "AlcoholV.MinLimitLabel".Translate());
+            listing_Standard.Label("MinStock".Translate() + ": " + extendable.MinCount);
+            extendable.MinCount = (int) listing_Standard.Slider(extendable.MinCount, 0f, bill.targetCount, "MinStockLabel".Translate());
 
             // button
             var t = extendable.MinCount;
@@ -171,13 +171,13 @@ namespace AlcoholV.Overriding
 
         private void AddAssignWorkerButton(Listing_Standard listing_Standard)
         {
-            var workerLabel = "AlcoholV.Anybody".Translate();
+            var workerLabel = "Anybody".Translate();
             if (extendable.AssignedPawn != null) workerLabel = extendable.AssignedPawn.NameStringShort.CapitalizeFirst().Truncate(listing_Standard.ColumnWidth);
 
             if (listing_Standard.ButtonText(workerLabel, null))
             {
                 var list = new List<FloatMenuOption>();
-                list.Add(new FloatMenuOption("AlcoholV.Anybody".Translate(), delegate { extendable.AssignedPawn = null; }, MenuOptionPriority.Default, null, null, 0f, null));
+                list.Add(new FloatMenuOption("Anybody".Translate(), delegate { extendable.AssignedPawn = null; }, MenuOptionPriority.Default, null, null, 0f, null));
                 foreach (var colonist in bill.GetSortedSatisfyWorker())
                     list.Add(new FloatMenuOption(colonist.NameStringShort, delegate { extendable.AssignedPawn = colonist; }, MenuOptionPriority.Default, null, null, 0f, null));
                 Find.WindowStack.Add(new FloatMenu(list));
@@ -187,7 +187,7 @@ namespace AlcoholV.Overriding
         private void AddRenameButton(Rect inRect)
         {
             var rect = new Rect(inRect.width - 80f, 0f, 30f, 30f);
-            TooltipHandler.TipRegion(rect, new TipSignal("RenameBill".Translate()));
+            TooltipHandler.TipRegion(rect, new TipSignal("Rename".Translate()));
             if (Widgets.ButtonImage(rect, TexButton.Rename))
                 Find.WindowStack.Add(new Dialog_Rename(extendable));
         }

@@ -9,8 +9,8 @@ namespace AlcoholV.Overriding
     public class Bill_ProductionWithUft : Source, IExtendable
     {
         private Pawn _assignedPawn;
-        private string _name;
-        private int _minCount;
+        private string _billName;
+        private int _minStock;
         private bool _isPaused;
 
         public Bill_ProductionWithUft()
@@ -31,8 +31,8 @@ namespace AlcoholV.Overriding
 
         public int MinCount
         {
-            get { return _minCount; }
-            set { _minCount = value; }
+            get { return _minStock; }
+            set { _minStock = value; }
         }
 
         public Pawn AssignedPawn
@@ -43,8 +43,8 @@ namespace AlcoholV.Overriding
 
         public string Name
         {
-            get { return _name; }
-            set { _name = value; }
+            get { return _billName; }
+            set { _billName = value; }
         }
 
         public override bool ShouldDoNow()
@@ -55,9 +55,9 @@ namespace AlcoholV.Overriding
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_References.LookReference(ref _assignedPawn, "AssignedPawn", false);
-            Scribe_Values.LookValue(ref _name, "billName", null);
-            Scribe_Values.LookValue(ref _minCount, "minCount", 0);
+            Scribe_References.LookReference(ref _assignedPawn, "assignedPawn", false);
+            Scribe_Values.LookValue(ref _billName, "billName", null);
+            Scribe_Values.LookValue(ref _minStock, "minStock", 0);
             Scribe_Values.LookValue(ref _isPaused, "isPaused", false);
         }
 

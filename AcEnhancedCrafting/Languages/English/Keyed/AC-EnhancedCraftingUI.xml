@@ -5,6 +5,6 @@
   <MinStock>Min Stock</MinStock>
   <MinStockLabel>If less than X, resume operation.</MinStockLabel>
   <Paused>Paused</Paused>
-  <BillGainsName>The name of the region is {0}.</BillGainsName>
+  <BillGainsName>The name of the bill is {0}.</BillGainsName>
   <ShiftLabel>Shift-Click : Increase or decrease by 5x\nCtrl-Click : Increase or decrease by 10x\nAlt-Click : Increase or decrease min stock count</ShiftLabel>
 </LanguageData>

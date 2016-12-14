@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+  <Anybody>Anybody</Anybody>
+  <MinStock>Min Stock</MinStock>
+  <MinStockLabel>If less than X, resume operation.</MinStockLabel>
+  <Paused>Paused</Paused>
+  <BillGainsName>The name of the region is {0}.</BillGainsName>
+  <ShiftLabel>Shift-Click : Increase or decrease by 5x\nCtrl-Click : Increase or decrease by 10x\nAlt-Click : Increase or decrease min stock count</ShiftLabel>
+</LanguageData>

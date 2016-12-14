@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+  <Anybody>아무나</Anybody>
+  <MinStock>최소 보관량</MinStock>
+  <MinStockLabel>이 값보다 작아지면 작업을 재개합니다.</MinStockLabel>
+  <Paused>대기중</Paused>
+  <BillGainsName>그 계획서의 이름은 이제 {0}입니다.</BillGainsName>
+  <ShiftLabel>쉬프크 클릭 : 5배씩 증감\n컨트롤 클릭 : 10배씩 증감\n알트 클릭 : 최소 보관량 증감</ShiftLabel>
+</LanguageData>

@@ -20,7 +20,7 @@ namespace AlcoholV.Overriding
         public Bill_ProductionWithUft(RecipeDef recipe) : base(recipe)
         {
             Name = recipe.label;
-            MinCount = targetCount;
+            MinStock = targetCount;
         }
 
         public bool IsPaused
@@ -29,7 +29,7 @@ namespace AlcoholV.Overriding
             set { _isPaused = value; }
         }
 
-        public int MinCount
+        public int MinStock
         {
             get { return _minStock; }
             set { _minStock = value; }

@@ -37,7 +37,7 @@ namespace AlcoholV.Extension
                 if (currentCount >= _this.targetCount)
                     extendable.IsPaused = true;
 
-                else if (currentCount <= extendable.MinCount)
+                else if (currentCount <= extendable.MinStock)
                     extendable.IsPaused = false;
 
                 return !extendable.IsPaused;
@@ -60,11 +60,11 @@ namespace AlcoholV.Extension
             {
                 var labelWidget = new WidgetRow(28, 32, UIDirection.RightThenDown);
                 var extendable = (IExtendable) _this;
-                counterLabel = extendable.MinCount + "/" + counterLabel;
+                counterLabel = extendable.MinStock + "/" + counterLabel;
                 var str = counterLabel.Split('/');
 
                 // min
-                labelWidget.Label(str[0]+"/");
+                labelWidget.Label(str[0] + "/");
                 // current
                 GUI.color = new Color(1f, 1f, 1f, 1f);
                 labelWidget.Label(str[1]);
@@ -72,14 +72,11 @@ namespace AlcoholV.Extension
 
 
                 // max
-                labelWidget.Label("/"+str[2]);
-
+                labelWidget.Label("/" + str[2]);
             }
             else
             {
-                
                 Widgets.Label(rect, counterLabel);
-                
             }
 
             GUI.color = baseColor;
@@ -173,17 +170,20 @@ namespace AlcoholV.Extension
             var extendable = (IExtendable) _this;
 
             // catch shfit click
-            var e = Event.current;
+            var isCtrl = Event.current.control;
+            var isShfit = Event.current.shift;
+            var isAlt = Event.current.alt;
+
             var modifier = 1;
 
-            if (e.shift) modifier *= Shift;
-            if (e.control) modifier *= Ctrl;
+            if (isShfit) modifier *= Shift;
+            if (isCtrl) modifier *= Ctrl;
 
             widgetRow.Gap(8f);
             // + 버튼
             if (widgetRow.ButtonIcon(TexButton.Plus, "ShiftLabel".Translate()))
             {
-                if (e.alt) _this.repeatMode = BillRepeatMode.TargetCount;
+                if (isAlt) _this.repeatMode = BillRepeatMode.TargetCount;
 
                 if (_this.repeatMode == BillRepeatMode.Forever)
                 {
@@ -193,8 +193,7 @@ namespace AlcoholV.Extension
                 else if (_this.repeatMode == BillRepeatMode.TargetCount)
                 {
                     // catch alt and change min stock
-                    if (e.alt)
-                        extendable.MinCount = Mathf.Min(_this.targetCount, extendable.MinCount + modifier); // compare max value
+                    if (isAlt) extendable.MinStock = Mathf.Min(_this.targetCount, extendable.MinStock + _this.recipe.targetCountAdjustment*modifier); // compare max value
                     else _this.targetCount += _this.recipe.targetCountAdjustment*modifier;
                 }
                 else if (_this.repeatMode == BillRepeatMode.RepeatCount)
@@ -209,7 +208,7 @@ namespace AlcoholV.Extension
             // - 버튼
             if (widgetRow.ButtonIcon(TexButton.Minus, "ShiftLabel".Translate()))
             {
-                if (e.alt) _this.repeatMode = BillRepeatMode.TargetCount;
+                if (isCtrl) _this.repeatMode = BillRepeatMode.TargetCount;
 
                 if (_this.repeatMode == BillRepeatMode.Forever)
                 {
@@ -218,8 +217,9 @@ namespace AlcoholV.Extension
                 }
                 else if (_this.repeatMode == BillRepeatMode.TargetCount)
                 {
-                    if (e.alt) extendable.MinCount = Mathf.Max(0, extendable.MinCount - _this.recipe.targetCountAdjustment*modifier); // catch alt and change min stock
-                    else _this.targetCount = Mathf.Max(0, _this.targetCount - _this.recipe.targetCountAdjustment*modifier);
+                    // catch alt and change min stock
+                    if (isAlt) extendable.MinStock = Mathf.Max(0, extendable.MinStock - _this.recipe.targetCountAdjustment*modifier); // catch alt and change min stock
+                    else _this.targetCount = Mathf.Max(extendable.MinStock, _this.targetCount - _this.recipe.targetCountAdjustment*modifier);
                 }
                 else if (_this.repeatMode == BillRepeatMode.RepeatCount)
                 {

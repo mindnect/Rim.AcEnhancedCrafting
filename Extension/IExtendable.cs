@@ -7,7 +7,7 @@ namespace AlcoholV.Extension
     {
         Pawn AssignedPawn { get; set; }
         string Name { get; set; }
-        int MinCount { get; set; }
+        int MinStock { get; set; }
         bool IsPaused { get; set; }
     }
 }

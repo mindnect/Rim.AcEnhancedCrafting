@@ -158,15 +158,15 @@ namespace AlcoholV.Overriding
         {
             if (bill.repeatMode != BillRepeatMode.TargetCount) return;
             listing_Standard.Gap(12f);
-            listing_Standard.Label("MinStock".Translate() + ": " + extendable.MinCount);
-            extendable.MinCount = (int) listing_Standard.Slider(extendable.MinCount, 0f, bill.targetCount, "MinStockLabel".Translate());
+            listing_Standard.Label("MinStock".Translate() + ": " + extendable.MinStock);
+            extendable.MinStock = (int) listing_Standard.Slider(extendable.MinStock, 0f, bill.targetCount, "MinStockLabel".Translate());
 
             // button
-            var t = extendable.MinCount;
+            var t = extendable.MinStock;
             listing_Standard.IntSetter(ref t, bill.targetCount, "max".Translate());
             listing_Standard.IntAdjuster(ref t, 1, 25, 0); // changed
             if (t > bill.targetCount) t = bill.targetCount;
-            extendable.MinCount = t;
+            extendable.MinStock = t;
         }
 
         private void AddAssignWorkerButton(Listing_Standard listing_Standard)

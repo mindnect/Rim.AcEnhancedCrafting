@@ -78,7 +78,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="AcEnhancedCrafting\About\preview.png" />
-    <Content Include="AcEnhancedCrafting\Assemblies\AC-EnhancedCrafting.dll" />
     <Content Include="AcEnhancedCrafting\Languages\English\Keyed\AC-EnhancedCraftingUI.xml" />
     <Content Include="AcEnhancedCrafting\Languages\Korean\Keyed\AC-EnhancedCraftingUI.xml" />
     <Content Include="LICENSE.txt" />
@@ -95,6 +94,9 @@
       <Name>Assembly-CSharp</Name>
       <Private>False</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AcEnhancedCrafting\Assemblies\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

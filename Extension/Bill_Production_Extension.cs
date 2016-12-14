@@ -219,7 +219,11 @@ namespace AlcoholV.Extension
                 {
                     // catch alt and change min stock
                     if (isAlt) extendable.MinStock = Mathf.Max(0, extendable.MinStock - _this.recipe.targetCountAdjustment*modifier); // catch alt and change min stock
-                    else _this.targetCount = Mathf.Max(extendable.MinStock, _this.targetCount - _this.recipe.targetCountAdjustment*modifier);
+                    else
+                    {
+                        _this.targetCount = Mathf.Max(0, _this.targetCount - _this.recipe.targetCountAdjustment*modifier);
+                        extendable.MinStock = Mathf.Min(extendable.MinStock, _this.targetCount);
+                    }
                 }
                 else if (_this.repeatMode == BillRepeatMode.RepeatCount)
                 {

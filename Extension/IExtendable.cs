@@ -2,7 +2,7 @@
 
 namespace AlcoholV.Extension
 {
-    // It does not fit the class design but tricky way for compatibility.
+    // It's really wrong design but tricky way for compatibility.
     public interface IExtendable
     {
         Pawn AssignedPawn { get; set; }

@@ -9,9 +9,14 @@ namespace AlcoholV.Extension
     {
         public static IEnumerable<Pawn> GetSortedSatisfyWorker(this Bill _this)
         {
-            var satisfyWorkers = Find.VisibleMap.mapPawns.FreeColonists.Where(_this.recipe.PawnSatisfiesSkillRequirements).Where(p => p.workSettings.WorkIsActive(_this.GetWorkType()));
-            var sortedWorkers = satisfyWorkers.OrderByDescending(p => p.skills.GetSkill(_this.recipe.workSkill).Level);
-            return sortedWorkers;
+            var requireWorkType = _this.GetWorkType();
+            var satisfyWorkers = Find.VisibleMap.mapPawns.FreeColonists.Where(_this.recipe.PawnSatisfiesSkillRequirements).Where(p => p.workSettings.WorkIsActive(requireWorkType));
+
+            if ((requireWorkType.workTags & WorkTags.Hauling) !=0)
+            {
+                return satisfyWorkers.OrderByDescending(p => p.GetStatValue(StatDefOf.MoveSpeed));
+            }
+            return satisfyWorkers.OrderByDescending(p => p.skills.GetSkill(_this.recipe.workSkill).Level);
         }
 
         public static WorkTypeDef GetWorkType(this Bill _this)

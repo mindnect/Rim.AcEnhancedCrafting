@@ -82,6 +82,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Mod\About\preview.png" />
+    <Content Include="Mod\About\PublishedFileId.txt" />
     <Content Include="Mod\Languages\English\Keyed\AC-EnhancedCraftingUI.xml" />
     <Content Include="Mod\Languages\Korean\Keyed\AC-EnhancedCraftingUI.xml" />
     <Content Include="LICENSE.txt" />

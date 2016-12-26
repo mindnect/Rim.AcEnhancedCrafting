@@ -54,7 +54,6 @@ namespace AlcoholV.Extension
             var counterLabel = _this.RepeatInfoText;
 
             // min count label
-
             GUI.color = new Color(1f, 1f, 1f, 0.65f);
             if (_this.repeatMode == BillRepeatMode.TargetCount)
             {

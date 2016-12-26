@@ -182,7 +182,10 @@ namespace AlcoholV.Extension
             // + 버튼
             if (widgetRow.ButtonIcon(TexButton.Plus, "ShiftLabel".Translate()))
             {
-                if (isAlt) _this.repeatMode = BillRepeatMode.TargetCount;
+                if (isAlt && _this.recipe.WorkerCounter.CanCountProducts(_this))
+                {
+                    _this.repeatMode = BillRepeatMode.TargetCount;
+                }
 
                 if (_this.repeatMode == BillRepeatMode.Forever)
                 {
@@ -207,7 +210,10 @@ namespace AlcoholV.Extension
             // - 버튼
             if (widgetRow.ButtonIcon(TexButton.Minus, "ShiftLabel".Translate()))
             {
-                if (isCtrl) _this.repeatMode = BillRepeatMode.TargetCount;
+                if (isAlt && _this.recipe.WorkerCounter.CanCountProducts(_this))
+                {
+                    _this.repeatMode = BillRepeatMode.TargetCount;
+                }
 
                 if (_this.repeatMode == BillRepeatMode.Forever)
                 {

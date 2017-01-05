@@ -34,7 +34,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>Mod\Assemblies\</OutputPath>
+    <OutputPath>Mods\AcEnhancedCrafting\Assemblies\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -73,32 +73,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Mod\About\1.Assign.png" />
-    <Content Include="Mod\About\2.Sorting.png" />
-    <Content Include="Mod\About\3.Rename.png" />
-    <Content Include="Mod\About\4.UI.png" />
-    <Content Include="Mod\About\5.Overview.png" />
-    <Content Include="Mod\About\About.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Mod\About\preview.png" />
-    <Content Include="Mod\About\PublishedFileId.txt" />
-    <Content Include="Mod\Languages\English\Keyed\AC-EnhancedCraftingUI.xml" />
-    <Content Include="Mod\Languages\Korean\Keyed\AC-EnhancedCraftingUI.xml" />
     <Content Include="LICENSE.txt" />
-    <Content Include="Mod\Textures\BestStockpile.png" />
-    <Content Include="Mod\Textures\Detail.png" />
-    <Content Include="Mod\Textures\DropOnFloor.png" />
-    <Content Include="Mod\Textures\Forever.png" />
-    <Content Include="Mod\Textures\RepeatCount.png" />
-    <Content Include="Mod\Textures\TargetCount.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Mod\Assemblies\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /E /Y /I "$(ProjectDir)Mod" "C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\$(TargetName)\"</PostBuildEvent>
+    <PostBuildEvent>xcopy /E /Y /I "$(ProjectDir)Mods" "C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

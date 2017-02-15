@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+  <Anybody>任何人</Anybody>
+  <MinStock>最小庫存</MinStock>
+  <MinStockLabel>當小於X時恢復操作.</MinStockLabel>
+  <Paused>已暫定</Paused>
+  <BillGainsName>清單名稱為 {0}.</BillGainsName>
+  <ShiftLabel>Shift+單擊：增加或減少5X\nCtrl+單擊 : 增加或減少10x\nAlt+單擊 : 增加或減少最小庫存</ShiftLabel>
+</LanguageData>

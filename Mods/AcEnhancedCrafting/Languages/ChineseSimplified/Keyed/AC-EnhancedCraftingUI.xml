@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+  <Anybody>任何人</Anybody>
+  <MinStock>最小库存</MinStock>
+  <MinStockLabel>当小于X时恢复操作。</MinStockLabel>
+  <Paused>已暂停</Paused>
+  <BillGainsName>清单名称为{0}。</BillGainsName>
+  <ShiftLabel>Shift+点击 : 增加或减少5x\nCtrl+点击 : 增加或减少10x\nAlt+点击 : 增加或减少最小库存计数</ShiftLabel>
+</LanguageData>

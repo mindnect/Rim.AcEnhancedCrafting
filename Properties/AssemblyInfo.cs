@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("AcEnhancedCrafting")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Travis Offtermatt")]
 [assembly: AssemblyProduct("AcEnhancedCrafting")]
 [assembly: AssemblyCopyright("Copyright ©  2016 AlcoholV")]
 [assembly: AssemblyTrademark("")]

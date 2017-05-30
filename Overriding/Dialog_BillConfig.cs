@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using AlcoholV.Extension;
@@ -31,8 +32,9 @@ namespace AlcoholV.Overriding
             #region Origianl
 
             Text.Font = GameFont.Small;
-            var rect2 = new Rect(0f, 50f, 180f, inRect.height - 50f);
-            var listing_Standard = new Listing_Standard(rect2);
+            Rect rect2 = new Rect(0f, 50f, 180f, inRect.height - 50f);
+            Listing_Standard listing_Standard = new Listing_Standard();
+            listing_Standard.Begin(rect2);
 
             if (bill.suspended)
             {
@@ -54,28 +56,29 @@ namespace AlcoholV.Overriding
             var label = ("BillStoreMode_" + bill.storeMode).Translate();
             if (listing_Standard.ButtonText(label, null))
             {
-                var list = new List<FloatMenuOption>();
-                var enumerator = Enum.GetValues(typeof(BillStoreMode)).GetEnumerator();
+                List<FloatMenuOption> list = new List<FloatMenuOption>();
+                foreach (BillStoreModeDef current in from bsm in DefDatabase<BillStoreModeDef>.AllDefs
+                                                     orderby bsm.listOrder
+                                                     select bsm)
                 {
-                    while (enumerator.MoveNext())
+                    BillStoreModeDef smLocal = current;
+                    list.Add(new FloatMenuOption(("BillStoreMode_" + current).Translate(), delegate
                     {
-                        var billStoreMode = (BillStoreMode) (byte) enumerator.Current;
-                        var smLocal = billStoreMode;
-                        list.Add(new FloatMenuOption(("BillStoreMode_" + billStoreMode).Translate(), delegate { bill.storeMode = smLocal; }, MenuOptionPriority.Default, null, null, 0f, null));
-                    }
+                        this.bill.storeMode = smLocal;
+                    }, MenuOptionPriority.Default, null, null, 0f, null, null));
                 }
                 Find.WindowStack.Add(new FloatMenu(list));
             }
 
             listing_Standard.Gap(12f);
-            if (bill.repeatMode == BillRepeatMode.RepeatCount)
+            if (bill.repeatMode == BillRepeatModeDefOf.RepeatCount)
             {
                 listing_Standard.Label("RepeatCount".Translate(bill.RepeatInfoText));
                 listing_Standard.IntSetter(ref bill.repeatCount, 1, "1", 42f);
                 listing_Standard.IntAdjuster(ref bill.repeatCount, 1, 25, 1); // changed
                 listing_Standard.IntAdjuster(ref bill.repeatCount, 10, 250, 1);
             }
-            else if (bill.repeatMode == BillRepeatMode.TargetCount)
+            else if (bill.repeatMode == BillRepeatModeDefOf.TargetCount)
             {
                 var text = "CurrentlyHave".Translate() + ": ";
                 text += bill.recipe.WorkerCounter.CountProducts(bill);
@@ -125,38 +128,47 @@ namespace AlcoholV.Overriding
                 stringBuilder.AppendLine(bill.recipe.description);
                 stringBuilder.AppendLine();
             }
-            stringBuilder.AppendLine("WorkAmount".Translate() + ": " + bill.recipe.WorkAmountTotal(null).ToStringWorkAmount());
+            stringBuilder.AppendLine("WorkAmount".Translate() + ": " + this.bill.recipe.WorkAmountTotal(null).ToStringWorkAmount());
             stringBuilder.AppendLine();
-            for (var i = 0; i < bill.recipe.ingredients.Count; i++)
+            for (int i = 0; i < this.bill.recipe.ingredients.Count; i++)
             {
-                var ingredientCount = bill.recipe.ingredients[i];
+                IngredientCount ingredientCount = this.bill.recipe.ingredients[i];
                 if (!ingredientCount.filter.Summary.NullOrEmpty())
-                    stringBuilder.AppendLine(bill.recipe.IngredientValueGetter.BillRequirementsDescription(ingredientCount));
+                {
+                    stringBuilder.AppendLine(this.bill.recipe.IngredientValueGetter.BillRequirementsDescription(this.bill.recipe, ingredientCount));
+                }
             }
             stringBuilder.AppendLine();
-            var text4 = bill.recipe.IngredientValueGetter.ExtraDescriptionLine(bill.recipe);
+            string text4 = this.bill.recipe.IngredientValueGetter.ExtraDescriptionLine(this.bill.recipe);
             if (text4 != null)
             {
                 stringBuilder.AppendLine(text4);
                 stringBuilder.AppendLine();
             }
-            stringBuilder.AppendLine("MinimumSkills".Translate());
-            stringBuilder.AppendLine(bill.recipe.MinSkillString);
+            if (!this.bill.recipe.skillRequirements.NullOrEmpty<SkillRequirement>())
+            {
+                stringBuilder.AppendLine("MinimumSkills".Translate());
+                stringBuilder.AppendLine(this.bill.recipe.MinSkillString);
+            }
             Text.Font = GameFont.Small;
-            var text5 = stringBuilder.ToString();
-            if (Text.CalcHeight(text5, rect4.width) > rect4.height)
+            string text5 = stringBuilder.ToString();
+            if (Text.CalcHeight(text5, rect2.width) > rect2.height)
+            {
                 Text.Font = GameFont.Tiny;
-            Widgets.Label(rect4, text5);
+            }
+            Widgets.Label(rect2, text5);
             Text.Font = GameFont.Small;
-            if (bill.recipe.products.Count == 1)
-                Widgets.InfoCardButton(rect4.x, rect3.y, bill.recipe.products[0].thingDef);
+            if (this.bill.recipe.products.Count == 1)
+            {
+                Widgets.InfoCardButton(rect2.x, rect4.y, this.bill.recipe.products[0].thingDef);
+            }
 
             #endregion
         }
 
         private void AddMinBarButton(Listing_Standard listing_Standard)
         {
-            if (bill.repeatMode != BillRepeatMode.TargetCount) return;
+            if (bill.repeatMode != BillRepeatModeDefOf.TargetCount) return;
             listing_Standard.Gap(12f);
             listing_Standard.Label("MinStock".Translate() + ": " + extendable.MinStock);
             extendable.MinStock = (int) listing_Standard.Slider(extendable.MinStock, 0f, bill.targetCount, "MinStockLabel".Translate());

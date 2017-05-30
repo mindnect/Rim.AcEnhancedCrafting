@@ -55,10 +55,10 @@ namespace AlcoholV.Overriding
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_References.LookReference(ref _assignedPawn, "assignedPawn", false);
-            Scribe_Values.LookValue(ref _billName, "billName", null);
-            Scribe_Values.LookValue(ref _minStock, "minStock", 0);
-            Scribe_Values.LookValue(ref _isPaused, "isPaused", false);
+            Scribe_References.Look(ref _assignedPawn, "assignedPawn", false);
+            Scribe_Values.Look(ref _billName, "billName", null);
+            Scribe_Values.Look(ref _minStock, "minStock", 0);
+            Scribe_Values.Look(ref _isPaused, "isPaused", false);
         }
 
         protected override void DoConfigInterface(Rect baseRect, Color baseColor)

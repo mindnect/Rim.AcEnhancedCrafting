@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
@@ -18,18 +19,18 @@ namespace AlcoholV.Extension
             if (_this.suspended) return false;
             var extendable = (IExtendable) _this;
 
-            if (_this.repeatMode == BillRepeatMode.Forever)
+            if (_this.repeatMode == BillRepeatModeDefOf.Forever)
             {
                 extendable.IsPaused = false;
                 return true;
             }
-            if (_this.repeatMode == BillRepeatMode.RepeatCount)
+            if (_this.repeatMode == BillRepeatModeDefOf.RepeatCount)
             {
                 extendable.IsPaused = false;
                 return _this.repeatCount > 0;
             }
 
-            if (_this.repeatMode == BillRepeatMode.TargetCount)
+            if (_this.repeatMode == BillRepeatModeDefOf.TargetCount)
             {
                 var currentCount = _this.recipe.WorkerCounter.CountProducts(_this);
 
@@ -55,7 +56,7 @@ namespace AlcoholV.Extension
 
             // min count label
             GUI.color = new Color(1f, 1f, 1f, 0.65f);
-            if (_this.repeatMode == BillRepeatMode.TargetCount)
+            if (_this.repeatMode == BillRepeatModeDefOf.TargetCount)
             {
                 var labelWidget = new WidgetRow(28, 32, UIDirection.RightThenDown);
                 var extendable = (IExtendable) _this;
@@ -84,7 +85,7 @@ namespace AlcoholV.Extension
 
             CreateAssignPawnButton(_this);
             CreateDetailButton(_this, widgetRow);
-            CreateHaulModeButton(_this, widgetRow);
+            //CreateHaulModeButton(_this, widgetRow);
             CreateRepeatButton(_this, widgetRow);
             CreatePlusMinusButton(_this, widgetRow);
             CreateOverlayLabel(_this, baseRect);
@@ -112,53 +113,43 @@ namespace AlcoholV.Extension
             if (widgetRow.ButtonIcon(TexButton.Detail, "Details".Translate()))
                 Find.WindowStack.Add(new Dialog_BillConfig(_this, ((Thing) _this.billStack.billGiver).Position));
         }
-
+        
         private static void CreateHaulModeButton(Bill_Production _this, WidgetRow widgetRow)
         {
             var label = ("BillStoreMode_" + _this.storeMode).Translate();
             Texture2D tex = null;
 
-            switch (_this.storeMode)
-            {
-                case BillStoreMode.BestStockpile:
+            if (_this.storeMode == BillStoreModeDefOf.BestStockpile)
                     tex = TexButton.BestStockpile;
-                    break;
-                case BillStoreMode.DropOnFloor:
+            else if (_this.storeMode == BillStoreModeDefOf.DropOnFloor)
                     tex = TexButton.DropOnFloor;
-                    break;
-            }
 
             if (widgetRow.ButtonIcon(tex, label))
             {
-                var list = new List<FloatMenuOption>();
-                var enumerator = Enum.GetValues(typeof(BillStoreMode)).GetEnumerator();
+                List<FloatMenuOption> list = new List<FloatMenuOption>();
+				foreach (BillStoreModeDef current in from bsm in DefDatabase<BillStoreModeDef>.AllDefs
+                                                     orderby bsm.listOrder
+                                                     select bsm)
                 {
-                    while (enumerator.MoveNext())
-                    {
-                        var billStoreMode = (BillStoreMode) (byte) enumerator.Current;
-                        var smLocal = billStoreMode;
-                        list.Add(new FloatMenuOption(("BillStoreMode_" + billStoreMode).Translate(), delegate { _this.storeMode = smLocal; }));
-                    }
-                }
-                Find.WindowStack.Add(new FloatMenu(list));
+                    BillStoreModeDef smLocal = current;
+					list.Add(new FloatMenuOption(("BillStoreMode_" + current).Translate(), delegate
+					{
+                       _this.storeMode = smLocal;
+					}, MenuOptionPriority.Default, null, null, 0f, null, null));
+				}
+				Find.WindowStack.Add(new FloatMenu(list));
             }
         }
 
         private static void CreateRepeatButton(Bill_Production _this, WidgetRow widgetRow)
         {
             Texture2D tex = null;
-            switch (_this.repeatMode)
-            {
-                case BillRepeatMode.RepeatCount:
-                    tex = TexButton.RepeatCount;
-                    break;
-                case BillRepeatMode.TargetCount:
-                    tex = TexButton.TargetCount;
-                    break;
-                case BillRepeatMode.Forever:
-                    tex = TexButton.Forever;
-                    break;
-            }
+            if (_this.repeatMode == BillRepeatModeDefOf.RepeatCount)
+                tex = TexButton.RepeatCount;
+            else if (_this.repeatMode == BillRepeatModeDefOf.TargetCount)
+                tex = TexButton.TargetCount;
+            else if (_this.repeatMode == BillRepeatModeDefOf.Forever)
+                tex = TexButton.Forever;
 
             if (widgetRow.ButtonIcon(tex, _this.repeatMode.GetLabel()))
                 BillRepeatModeUtility.MakeConfigFloatMenu(_this);
@@ -184,26 +175,26 @@ namespace AlcoholV.Extension
             {
                 if (isAlt && _this.recipe.WorkerCounter.CanCountProducts(_this))
                 {
-                    _this.repeatMode = BillRepeatMode.TargetCount;
+                    _this.repeatMode = BillRepeatModeDefOf.TargetCount;
                 }
 
-                if (_this.repeatMode == BillRepeatMode.Forever)
+                if (_this.repeatMode == BillRepeatModeDefOf.Forever)
                 {
-                    _this.repeatMode = BillRepeatMode.RepeatCount;
+                    _this.repeatMode = BillRepeatModeDefOf.RepeatCount;
                     _this.repeatCount = 1;
                 }
-                else if (_this.repeatMode == BillRepeatMode.TargetCount)
+                else if (_this.repeatMode == BillRepeatModeDefOf.TargetCount)
                 {
                     // catch alt and change min stock
                     if (isAlt) extendable.MinStock = Mathf.Min(_this.targetCount, extendable.MinStock + _this.recipe.targetCountAdjustment*modifier); // compare max value
                     else _this.targetCount += _this.recipe.targetCountAdjustment*modifier;
                 }
-                else if (_this.repeatMode == BillRepeatMode.RepeatCount)
+                else if (_this.repeatMode == BillRepeatModeDefOf.RepeatCount)
                 {
                     _this.repeatCount += modifier;
                 }
                 SoundDefOf.AmountIncrement.PlayOneShotOnCamera();
-                if (TutorSystem.TutorialMode && (_this.repeatMode == BillRepeatMode.RepeatCount))
+                if (TutorSystem.TutorialMode && (_this.repeatMode == BillRepeatModeDefOf.RepeatCount))
                     TutorSystem.Notify_Event(_this.recipe.defName + "-RepeatCountSetTo-" + _this.repeatCount);
             }
 
@@ -212,15 +203,15 @@ namespace AlcoholV.Extension
             {
                 if (isAlt && _this.recipe.WorkerCounter.CanCountProducts(_this))
                 {
-                    _this.repeatMode = BillRepeatMode.TargetCount;
+                    _this.repeatMode = BillRepeatModeDefOf.TargetCount;
                 }
 
-                if (_this.repeatMode == BillRepeatMode.Forever)
+                if (_this.repeatMode == BillRepeatModeDefOf.Forever)
                 {
-                    _this.repeatMode = BillRepeatMode.RepeatCount;
+                    _this.repeatMode = BillRepeatModeDefOf.RepeatCount;
                     _this.repeatCount = 1;
                 }
-                else if (_this.repeatMode == BillRepeatMode.TargetCount)
+                else if (_this.repeatMode == BillRepeatModeDefOf.TargetCount)
                 {
                     // catch alt and change min stock
                     if (isAlt) extendable.MinStock = Mathf.Max(0, extendable.MinStock - _this.recipe.targetCountAdjustment*modifier); // catch alt and change min stock
@@ -230,12 +221,12 @@ namespace AlcoholV.Extension
                         extendable.MinStock = Mathf.Min(extendable.MinStock, _this.targetCount);
                     }
                 }
-                else if (_this.repeatMode == BillRepeatMode.RepeatCount)
+                else if (_this.repeatMode == BillRepeatModeDefOf.RepeatCount)
                 {
                     _this.repeatCount = Mathf.Max(0, _this.repeatCount - modifier);
                 }
                 SoundDefOf.AmountDecrement.PlayOneShotOnCamera();
-                if (TutorSystem.TutorialMode && (_this.repeatMode == BillRepeatMode.RepeatCount))
+                if (TutorSystem.TutorialMode && (_this.repeatMode == BillRepeatModeDefOf.RepeatCount))
                     TutorSystem.Notify_Event(_this.recipe.defName + "-RepeatCountSetTo-" + _this.repeatCount);
             }
         }

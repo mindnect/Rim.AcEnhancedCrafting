@@ -116,51 +116,48 @@ namespace AlcoholV.Overriding
             #region original
 
             listing_Standard.End();
-            var rect3 = new Rect(rect2.xMax + 6f, 50f, 280f, -1f);
-            rect3.yMax = inRect.height - CloseButSize.y - 6f;
-            ThingFilterUI.DoThingFilterConfigWindow(rect3, ref scrollPosition, bill.ingredientFilter, bill.recipe.fixedIngredientFilter, 4);
-            var rect4 = new Rect(rect3.xMax + 6f, rect3.y + 30f, 0f, 0f);
+            Rect rect3 = new Rect(rect2.xMax + 6f, 50f, 280f, -1f);
+            rect3.yMax = inRect.height - this.CloseButSize.y - 6f;
+            ThingFilterUI.DoThingFilterConfigWindow(rect3, ref this.scrollPosition, this.bill.ingredientFilter, this.bill.recipe.fixedIngredientFilter, 4, null, null);
+            Rect rect4 = new Rect(rect3.xMax + 6f, rect3.y + 30f, 0f, 0f);
             rect4.xMax = inRect.xMax;
-            rect4.yMax = inRect.height - CloseButSize.y - 6f;
-            var stringBuilder = new StringBuilder();
-            if (bill.recipe.description != null)
+            rect4.yMax = inRect.height - this.CloseButSize.y - 6f;
+            StringBuilder stringBuilder = new StringBuilder();
+            if (this.bill.recipe.description != null)
             {
-                stringBuilder.AppendLine(bill.recipe.description);
+                stringBuilder.AppendLine(this.bill.recipe.description);
                 stringBuilder.AppendLine();
             }
-            stringBuilder.AppendLine("WorkAmount".Translate() + ": " + this.bill.recipe.WorkAmountTotal(null).ToStringWorkAmount());
+            stringBuilder.AppendLine(Translator.Translate("WorkAmount") + ": " + GenText.ToStringWorkAmount(this.bill.recipe.WorkAmountTotal(null)));
             stringBuilder.AppendLine();
             for (int i = 0; i < this.bill.recipe.ingredients.Count; i++)
             {
                 IngredientCount ingredientCount = this.bill.recipe.ingredients[i];
-                if (!ingredientCount.filter.Summary.NullOrEmpty())
+                if (!GenText.NullOrEmpty(ingredientCount.filter.Summary))
                 {
                     stringBuilder.AppendLine(this.bill.recipe.IngredientValueGetter.BillRequirementsDescription(this.bill.recipe, ingredientCount));
                 }
             }
             stringBuilder.AppendLine();
-            string text4 = this.bill.recipe.IngredientValueGetter.ExtraDescriptionLine(this.bill.recipe);
-            if (text4 != null)
+            string text5 = this.bill.recipe.IngredientValueGetter.ExtraDescriptionLine(this.bill.recipe);
+            if (text5 != null)
             {
-                stringBuilder.AppendLine(text4);
+                stringBuilder.AppendLine(text5);
                 stringBuilder.AppendLine();
             }
-            if (!this.bill.recipe.skillRequirements.NullOrEmpty<SkillRequirement>())
-            {
-                stringBuilder.AppendLine("MinimumSkills".Translate());
-                stringBuilder.AppendLine(this.bill.recipe.MinSkillString);
-            }
+            stringBuilder.AppendLine(Translator.Translate("MinimumSkills"));
+            stringBuilder.AppendLine(this.bill.recipe.MinSkillString);
             Text.Font = GameFont.Small;
-            string text5 = stringBuilder.ToString();
-            if (Text.CalcHeight(text5, rect2.width) > rect2.height)
+            string text6 = stringBuilder.ToString();
+            if (Text.CalcHeight(text6, rect4.width) > rect4.height)
             {
                 Text.Font = GameFont.Tiny;
             }
-            Widgets.Label(rect2, text5);
+            Widgets.Label(rect4, text6);
             Text.Font = GameFont.Small;
             if (this.bill.recipe.products.Count == 1)
             {
-                Widgets.InfoCardButton(rect2.x, rect4.y, this.bill.recipe.products[0].thingDef);
+                Widgets.InfoCardButton(rect4.x, rect3.y, this.bill.recipe.products[0].thingDef);
             }
 
             #endregion

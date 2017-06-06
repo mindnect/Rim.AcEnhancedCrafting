@@ -4,7 +4,7 @@
   <Anybody>誰でも</Anybody>
   <MinStock>最小在庫</MinStock>
   <MinStockLabel>Xより小さい場合、操作を再開します。</MinStockLabel>
-  <Paused>一時停止</Paused>
+  <!-- [Core] <Paused>一時停止</Paused> -->
   <BillGainsName>生産予定の名前は{0}です。</BillGainsName>
   <ShiftLabel>Shift+クリック : 増減単位が5x\nCtrl+クリック : 増減単位が10x\nAlt+クリック : 最小在庫数を増減</ShiftLabel>
 
